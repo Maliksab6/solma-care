@@ -1,0 +1,93 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+html {
+  scroll-behavior: smooth;
+}
+
+body {
+  background-color: #faf7f2;
+  color: #1e1a16;
+}
+
+.gap-line {
+  display: flex;
+  align-items: center;
+  gap: 1rem;
+  margin: 1.25rem 0;
+}
+.gap-line::before,
+.gap-line::after {
+  content: "";
+  flex: 1;
+  height: 1px;
+  background-color: #c4622d;
+  opacity: 0.35;
+}
+.gap-line span {
+  font-family: var(--font-dmsans), system-ui, sans-serif;
+  font-size: 0.75rem;
+  letter-spacing: 0.12em;
+  text-transform: uppercase;
+  color: #c4622d;
+  white-space: nowrap;
+}
+
+@media (prefers-reduced-motion: reduce) {
+  * {
+    animation-duration: 0.01ms !important;
+    animation-iteration-count: 1 !important;
+    transition-duration: 0.01ms !important;
+    scroll-behavior: auto !important;
+  }
+}
+
+:focus-visible {
+  outline: 2px solid #c8952a;
+  outline-offset: 2px;
+}
+
+@layer components {
+  .blog-content {
+    @apply prose prose-base max-w-none
+      prose-headings:text-ink prose-headings:font-bold
+      prose-p:text-ink2 prose-p:leading-[1.8] prose-p:my-4
+      prose-a:text-terracotta prose-a:no-underline hover:prose-a:underline
+      prose-strong:text-ink
+      prose-blockquote:border-terracotta/30 prose-blockquote:text-ink2 prose-blockquote:italic
+      prose-code:text-plum prose-code:bg-ivory2 prose-code:px-1.5 prose-code:py-0.5 prose-code:rounded
+      prose-pre:bg-ink prose-pre:text-ivory prose-pre:rounded-xl prose-pre:overflow-x-auto
+      prose-img:rounded-xl prose-img:shadow-md
+      prose-ul:my-4 prose-ul:pl-6
+      prose-ol:my-4 prose-ol:pl-6
+      prose-li:my-1.5
+      prose-h1:text-3xl
+      prose-h2:text-2xl
+      prose-h3:text-xl
+      overflow-x-auto;
+  }
+
+  .blog-content table,
+  .prose table {
+    @apply w-full border-collapse my-6;
+    display: table;
+  }
+  .blog-content th,
+  .prose th {
+    @apply bg-ivory2 text-ink font-semibold px-4 py-2.5 text-left border-b border-ink/10;
+  }
+  .blog-content td,
+  .prose td {
+    @apply px-4 py-2.5 border-b border-ink/5 text-ink2;
+  }
+  .blog-content tr:last-child td,
+  .prose tr:last-child td {
+    @apply border-b-0;
+  }
+  .prose table {
+    display: block;
+    overflow-x: auto;
+    -webkit-overflow-scrolling: touch;
+  }
+}

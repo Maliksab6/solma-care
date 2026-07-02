@@ -1,0 +1,25 @@
+@import '../styles/theme.css';
+
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+@layer base {
+  html { scroll-behavior: smooth; }
+  body { @apply leading-relaxed text-left overflow-x-hidden; }
+}
+
+@layer components {
+  .blog-content {
+    @apply prose prose-base max-w-none
+      prose-headings:text-gray-900 prose-headings:font-bold
+      prose-p:text-gray-700 prose-p:leading-snug prose-p:my-3
+      prose-a:text-plum prose-a:no-underline hover:prose-a:underline
+      prose-strong:text-gray-900
+      prose-blockquote:border-plum/30 prose-blockquote:text-gray-600
+      prose-code:text-plum prose-code:bg-ivory2 prose-code:px-1.5 prose-code:py-0.5 prose-code:rounded
+      prose-pre:bg-gray-900 prose-pre:rounded-xl prose-pre:overflow-x-auto
+      prose-img:rounded-2xl prose-img:shadow-md
+      overflow-x-auto;
+  }
+}
