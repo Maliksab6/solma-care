@@ -22,10 +22,10 @@ export default async function TopicsPage() {
     <>
       <Header />
       <main className="min-h-screen bg-surface-muted border-b border-surface-border">
-        <div className="max-w-6xl mx-auto px-6 py-12 md:py-16">
+        <div className="max-w-6xl mx-auto px-6 py-8 md:py-10">
           <p className="text-xs font-semibold tracking-widest uppercase text-gray-400 mb-3">Topics</p>
-          <h1 className="text-3xl md:text-5xl font-semibold text-ink tracking-tight">What We Cover</h1>
-          <p className="text-gray-500 mt-3 max-w-2xl text-lg">
+          <h1 className="text-3xl md:text-4xl font-semibold text-ink tracking-tight">What We Cover</h1>
+          <p className="text-gray-500 mt-2 max-w-2xl text-base">
             Physician-reviewed information organized by the conditions and 
             experiences most relevant to South Asian women.
           </p>

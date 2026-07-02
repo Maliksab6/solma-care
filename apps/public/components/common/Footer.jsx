@@ -48,6 +48,7 @@ export default function Footer() {
             )}
             <a href="https://tiktok.com/@solmacare" className="text-sm text-gray-400 hover:text-white transition-colors">TikTok</a>
             <Link href="/about" className="text-sm text-gray-400 hover:text-white transition-colors">About</Link>
+            <Link href="/terms" className="text-sm text-gray-400 hover:text-white transition-colors">Terms</Link>
           </div>
         </div>
 

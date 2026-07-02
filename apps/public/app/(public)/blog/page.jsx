@@ -51,12 +51,12 @@ export default async function BlogPage({ searchParams }) {
       <Header />
       <main className="min-h-screen">
         <section className="bg-surface-muted border-b border-surface-border">
-          <div className="max-w-6xl mx-auto px-6 py-12 md:py-16">
+          <div className="max-w-6xl mx-auto px-6 py-8 md:py-10">
             <p className="text-xs font-semibold tracking-widest uppercase text-gray-400 mb-3">Articles</p>
-            <h1 className="text-3xl md:text-5xl font-semibold text-ink tracking-tight">
+            <h1 className="text-3xl md:text-4xl font-semibold text-ink tracking-tight">
               {q ? `Search: "${q}"` : 'All Articles'}
             </h1>
-            <p className="text-gray-500 mt-3 max-w-2xl text-lg">
+            <p className="text-gray-500 mt-2 max-w-2xl text-base">
               Physician-reviewed articles on PCOS, insulin resistance, thyroid,
               fertility, and the conditions doctors keep calling normal.
             </p>
