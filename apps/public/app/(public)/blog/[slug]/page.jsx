@@ -12,6 +12,7 @@ import siteConfig from '@/lib/config'
 import { Calendar, Clock, Tag, ArrowLeft } from 'lucide-react'
 
 export const dynamic = 'force-dynamic'
+export const revalidate = 0
 
 export async function generateMetadata({ params }) {
   const supabase = createServerClient()

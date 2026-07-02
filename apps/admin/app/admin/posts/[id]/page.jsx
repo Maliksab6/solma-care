@@ -55,6 +55,7 @@ export default function EditPost() {
   const [loading, setLoading] = useState(true)
   const [saving, setSaving] = useState(false)
   const [uploading, setUploading] = useState(false)
+  const [imageUrl, setImageUrl] = useState('')
   const supabase = createClient()
 
   useEffect(() => { loadPost(); loadCategories() }, [postId])
@@ -80,6 +81,15 @@ export default function EditPost() {
   }
 
   const handleContentChange = (content) => { setFormData(prev => ({ ...prev, content, reading_time: calcReadingTime(content) })) }
+
+  const handleApplyImageUrl = () => {
+    const url = imageUrl.trim()
+    if (!url) return
+    if (!url.startsWith('http://')) { toast.error('Please enter a valid URL'); return }
+    setFormData(prev => ({ ...prev, featured_image: url }))
+    setImageUrl('')
+    toast.success('Image URL applied!')
+  }
 
   const handleHtmlImport = (event) => {
     const file = event.target.files?.[0]
@@ -257,23 +267,20 @@ export default function EditPost() {
                     <img src={formData.featured_image} alt="Featured" className="w-full h-full object-cover" />
                     <button onClick={() => setFormData(prev => ({ ...prev, featured_image: '' }))} className="absolute top-2 right-2 p-1.5 bg-red-500 text-white rounded-lg hover:bg-red-600"><X size={14} /></button>
                   </div>
-                  <div className="flex gap-2">
-                    <input type="url" value={formData.featured_image} onChange={(e) => setFormData(prev => ({ ...prev, featured_image: e.target.value }))} className="flex-1 px-3 py-2 rounded-lg border border-gray-200 focus:ring-2 focus:ring-plum outline-none text-xs" placeholder="Paste Cloudinary or image URL..." />
-                  </div>
+                  <input type="url" value={formData.featured_image} onChange={(e) => setFormData(prev => ({ ...prev, featured_image: e.target.value }))} className="w-full px-3 py-2 rounded-lg border border-gray-200 focus:ring-2 focus:ring-plum outline-none text-xs" placeholder="Image URL" />
                 </div>
               ) : (
                 <div className="space-y-3">
+                  <label className="flex flex-col items-center justify-center w-full h-24 border-2 border-dashed border-gray-300 rounded-xl cursor-pointer hover:border-plum transition-colors">
+                    <Upload size={20} className="text-gray-400 mb-1" />
+                    <p className="text-xs text-gray-500">{uploading ? 'Uploading...' : 'Upload from computer'}</p>
+                    <input type="file" className="hidden" accept="image/*" onChange={handleImageUpload} disabled={uploading} />
+                  </label>
                   <div className="flex gap-2">
-                    <label className="flex-1 flex flex-col items-center justify-center h-20 border-2 border-dashed border-gray-300 rounded-xl cursor-pointer hover:border-plum transition-colors">
-                      <Upload size={18} className="text-gray-400 mb-1" />
-                      <p className="text-xs text-gray-500">{uploading ? 'Uploading...' : 'Upload file'}</p>
-                      <input type="file" className="hidden" accept="image/*" onChange={handleImageUpload} disabled={uploading} />
-                    </label>
-                    <div className="flex-1 flex flex-col">
-                      <input type="url" value={formData.featured_image} onChange={(e) => setFormData(prev => ({ ...prev, featured_image: e.target.value }))} className="flex-1 px-3 py-2 rounded-lg border border-gray-200 focus:ring-2 focus:ring-plum outline-none text-xs" placeholder="Paste Cloudinary or image URL..." />
-                      <p className="text-[10px] text-gray-400 mt-1">e.g. https://res.cloudinary.com/...</p>
-                    </div>
+                    <input type="url" value={imageUrl} onChange={(e) => setImageUrl(e.target.value)} onKeyDown={(e) => e.key === 'Enter' && (e.preventDefault(), handleApplyImageUrl())} className="flex-1 px-3 py-2 rounded-lg border border-gray-200 focus:ring-2 focus:ring-plum outline-none text-xs" placeholder="Paste Cloudinary URL or image link..." />
+                    <button type="button" onClick={handleApplyImageUrl} className="px-3 py-2 bg-brand-600 text-white text-xs font-medium rounded-lg hover:bg-brand-700 transition-colors shrink-0">Apply</button>
                   </div>
+                  <p className="text-[10px] text-gray-400">Paste a link from Cloudinary, Imgur, or any image hosting service</p>
                 </div>
               )}
             </div>
