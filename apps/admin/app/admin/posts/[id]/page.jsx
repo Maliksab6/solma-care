@@ -222,8 +222,10 @@ export default function EditPost() {
             <div className="bg-white p-4 rounded-2xl shadow-sm border border-gray-100">
               <div className="flex items-center justify-between mb-3">
                 <h3 className="font-semibold text-gray-900 text-sm">FAQs</h3>
-                <label className="text-xs text-gray-400 hover:text-blue-500 cursor-pointer transition-colors">Import JSON</label>
-                <input type="file" className="hidden" accept=".json" onChange={handleFaqJsonImport} />
+                <label className="text-xs text-gray-400 hover:text-blue-500 cursor-pointer transition-colors">
+                  Import JSON
+                  <input type="file" className="hidden" accept=".json" onChange={handleFaqJsonImport} />
+                </label>
               </div>
               <div className="space-y-3">
                 {(formData.faqs || []).map((faq, i) => (
