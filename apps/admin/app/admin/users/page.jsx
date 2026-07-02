@@ -16,8 +16,9 @@ export default function UsersPage() {
 
   async function loadRoles() {
     try {
-      const { data } = await supabase.from('user_roles').select('*').order('created_at', { ascending: false })
-      setRoles(data || [])
+      const res = await fetch('/api/admin/users')
+      const json = await res.json()
+      setRoles(json.data || [])
     } catch { toast.error('Failed to load') } finally { setLoading(false) }
   }
 

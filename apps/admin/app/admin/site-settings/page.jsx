@@ -16,9 +16,10 @@ export default function SiteSettingsPage() {
 
   async function loadSettings() {
     try {
-      const { data } = await supabase.from('site_settings').select('*')
+      const res = await fetch('/api/admin/settings')
+      const json = await res.json()
       const map = {}
-      data?.forEach(s => { map[s.key] = s.value || '' })
+      json.data?.forEach(s => { map[s.key] = s.value || '' })
       setSettings(map)
     } catch { toast.error('Failed to load') } finally { setLoading(false) }
   }
@@ -27,7 +28,7 @@ export default function SiteSettingsPage() {
     setSaving(true)
     try {
       for (const [key, value] of Object.entries(settings)) {
-        await supabase.from('site_settings').upsert({ key, value, updated_at: new Date().toISOString() }, { onConflict: 'key' })
+        await fetch('/api/admin/settings', { method: 'POST', headers: { 'Content-Type': 'application/json' }, body: JSON.stringify({ key, value }) })
       }
       toast.success('Settings saved!')
     } catch (err) { toast.error(err.message) } finally { setSaving(false) }

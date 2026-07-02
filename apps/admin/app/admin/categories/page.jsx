@@ -17,14 +17,14 @@ export default function CategoriesPage() {
   useEffect(() => { loadCategories() }, [])
 
   async function loadCategories() {
-    try { const { data } = await supabase.from('categories').select('*').order('created_at'); setCategories(data || []) } catch { toast.error('Failed to load') } finally { setLoading(false) }
+    try { const res = await fetch('/api/admin/categories'); const json = await res.json(); setCategories(json.data || []) } catch { toast.error('Failed to load') } finally { setLoading(false) }
   }
 
   async function addCategory() {
     if (!newCat.name.trim()) { toast.error('Name required'); return }
     try {
-      const { error } = await supabase.from('categories').insert([{ name: newCat.name, slug: makeSlug(newCat.name), description: newCat.description, color: newCat.color }])
-      if (error) throw error
+      const res = await fetch('/api/admin/categories', { method: 'POST', headers: { 'Content-Type': 'application/json' }, body: JSON.stringify({ name: newCat.name, slug: makeSlug(newCat.name), description: newCat.description, color: newCat.color }) })
+      if (!res.ok) { const err = await res.json(); throw new Error(err.error) }
       toast.success('Category added')
       setNewCat({ name: '', description: '', color: '#C4622D' })
       loadCategories()
@@ -33,8 +33,8 @@ export default function CategoriesPage() {
 
   async function updateCategory(id, updates) {
     try {
-      const { error } = await supabase.from('categories').update(updates).eq('id', id)
-      if (error) throw error
+      const res = await fetch(`/api/admin/categories/${id}`, { method: 'PATCH', headers: { 'Content-Type': 'application/json' }, body: JSON.stringify(updates) })
+      if (!res.ok) { const err = await res.json(); throw new Error(err.error) }
       toast.success('Updated')
       setEditing(null)
       loadCategories()
@@ -44,8 +44,8 @@ export default function CategoriesPage() {
   async function deleteCategory(id) {
     if (!confirm('Delete this category?')) return
     try {
-      const { error } = await supabase.from('categories').delete().eq('id', id)
-      if (error) throw error
+      const res = await fetch(`/api/admin/categories/${id}`, { method: 'DELETE' })
+      if (!res.ok) throw new Error('Failed')
       toast.success('Deleted')
       loadCategories()
     } catch (err) { toast.error(err.message) }

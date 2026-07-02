@@ -18,16 +18,17 @@ export default function AdminPosts() {
 
   async function loadPosts() {
     try {
-      const { data } = await supabase.from('posts').select('*, category:categories(*)').order('created_at', { ascending: false })
-      setPosts(data || [])
+      const res = await fetch('/api/admin/posts')
+      const json = await res.json()
+      setPosts(json.data || [])
     } catch (err) { toast.error('Failed to load posts') } finally { setLoading(false) }
   }
 
   const deletePost = async (id) => {
     if (!confirm('Delete this post? This cannot be undone.')) return
     try {
-      const { error } = await supabase.from('posts').delete().eq('id', id)
-      if (error) throw error
+      const res = await fetch(`/api/admin/posts/${id}`, { method: 'DELETE' })
+      if (!res.ok) throw new Error('Failed')
       toast.success('Post deleted')
       loadPosts()
     } catch (err) { toast.error('Failed to delete') }
@@ -36,8 +37,12 @@ export default function AdminPosts() {
   const togglePublish = async (post) => {
     try {
       const newStatus = post.status === 'published' ? 'draft' : 'published'
-      const { error } = await supabase.from('posts').update({ status: newStatus, published_at: newStatus === 'published' ? new Date().toISOString() : null }).eq('id', post.id)
-      if (error) throw error
+      const res = await fetch(`/api/admin/posts/${post.id}`, {
+        method: 'PATCH',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({ status: newStatus, published_at: newStatus === 'published' ? new Date().toISOString() : null })
+      })
+      if (!res.ok) throw new Error('Failed')
       toast.success(`Post ${newStatus === 'published' ? 'published' : 'unpublished'}`)
       loadPosts()
     } catch (err) { toast.error('Failed to update') }

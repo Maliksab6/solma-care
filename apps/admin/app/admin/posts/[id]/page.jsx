@@ -61,8 +61,10 @@ export default function EditPost() {
 
   async function loadPost() {
     try {
-      const { data, error } = await supabase.from('posts').select('*').eq('id', postId).single()
-      if (error || !data) { toast.error('Post not found'); router.push('/admin/posts'); return }
+      const res = await fetch(`/api/admin/posts/${postId}`)
+      const json = await res.json()
+      if (!res.ok || !json.data) { toast.error('Post not found'); router.push('/admin/posts'); return }
+      const data = json.data
       setFormData({
         title: data.title || '', slug: data.slug || '', excerpt: data.excerpt || '',
         content: data.content || '', featured_image: data.featured_image || '',
@@ -74,7 +76,7 @@ export default function EditPost() {
   }
 
   async function loadCategories() {
-    try { const { data } = await supabase.from('categories').select('*').order('name'); setCategories(data || []) } catch (err) { console.error(err) }
+    try { const res = await fetch('/api/admin/categories'); const json = await res.json(); setCategories(json.data || []) } catch (err) { console.error(err) }
   }
 
   const handleContentChange = (content) => { setFormData(prev => ({ ...prev, content, reading_time: calcReadingTime(content) })) }
@@ -142,8 +144,12 @@ export default function EditPost() {
         meta_description: formData.meta_description || null,
         faqs: (formData.faqs || []).filter(f => f.question?.trim() && f.answer?.trim())
       }
-      const { error } = await supabase.from('posts').update(postData).eq('id', postId)
-      if (error) { toast.error(`Error: ${error.message}`); throw error }
+      const res = await fetch(`/api/admin/posts/${postId}`, {
+        method: 'PATCH',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify(postData)
+      })
+      if (!res.ok) { const err = await res.json(); toast.error(`Error: ${err.error}`); throw new Error(err.error) }
       toast.success('Post updated!')
       router.push('/admin/posts')
     } catch (err) { toast.error(`Failed: ${err.message}`) } finally { setSaving(false) }

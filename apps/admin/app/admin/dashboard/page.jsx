@@ -14,17 +14,13 @@ export default function Dashboard() {
   useEffect(() => {
     async function load() {
       try {
-        const [posts, comments, categories, subscribers] = await Promise.all([
-          supabase.from('posts').select('id', { count: 'exact', head: true }),
-          supabase.from('comments').select('id', { count: 'exact', head: true }),
-          supabase.from('categories').select('id', { count: 'exact', head: true }),
-          supabase.from('subscribers').select('id', { count: 'exact', head: true }),
-        ])
+        const res = await fetch('/api/admin/stats')
+        const data = await res.json()
         setStats({
-          posts: posts.count || 0,
-          comments: comments.count || 0,
-          categories: categories.count || 0,
-          subscribers: subscribers.count || 0,
+          posts: data.totalPosts || 0,
+          comments: data.totalComments || 0,
+          categories: data.totalCategories || 0,
+          subscribers: data.totalSubscribers || 0,
         })
       } catch (err) { console.error(err) }
       finally { setLoading(false) }

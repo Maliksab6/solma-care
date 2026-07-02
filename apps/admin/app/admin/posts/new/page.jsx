@@ -58,7 +58,7 @@ export default function NewPost() {
   useEffect(() => { loadCategories() }, [])
 
   async function loadCategories() {
-    try { const { data } = await supabase.from('categories').select('*').order('name'); setCategories(data || []) } catch (err) { console.error(err) } finally { setLoading(false) }
+    try { const res = await fetch('/api/admin/categories'); const json = await res.json(); setCategories(json.data || []) } catch (err) { console.error(err) } finally { setLoading(false) }
   }
 
   const handleTitleChange = (e) => { const title = e.target.value; setFormData(prev => ({ ...prev, title, slug: makeSlug(title) })) }
@@ -116,12 +116,10 @@ export default function NewPost() {
     if (!formData.title) { toast.error('Please enter a post title'); return }
     setSaving(true)
     try {
-      const { data: { user } } = await supabase.auth.getUser()
-      if (!user) { toast.error('Log in first!'); router.push('/admin/login'); return }
       const postData = {
         title: formData.title, slug: formData.slug, excerpt: formData.excerpt || null,
         content: formData.content, featured_image: formData.featured_image || null,
-        category_id: formData.category_id || null, author_id: user.id,
+        category_id: formData.category_id || null,
         status: publishNow ? 'published' : 'draft',
         published_at: publishNow ? new Date().toISOString() : null,
         reading_time: calcReadingTime(formData.content), tags: formData.tags || [],
@@ -129,8 +127,12 @@ export default function NewPost() {
         meta_description: formData.meta_description || null,
         faqs: formData.faqs.filter(f => f.question.trim() && f.answer.trim())
       }
-      const { error } = await supabase.from('posts').insert([postData])
-      if (error) { toast.error(`Error: ${error.message}`); throw error }
+      const res = await fetch('/api/admin/posts', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify(postData)
+      })
+      if (!res.ok) { const err = await res.json(); toast.error(`Error: ${err.error}`); throw new Error(err.error) }
       toast.success(publishNow ? 'Post published!' : 'Post saved as draft!')
       router.push('/admin/posts')
     } catch (err) { toast.error(`Failed: ${err.message}`) } finally { setSaving(false) }

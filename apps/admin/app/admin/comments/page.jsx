@@ -16,15 +16,16 @@ export default function CommentsPage() {
 
   async function loadComments() {
     try {
-      const { data } = await supabase.from('comments').select('*, post:posts(title, slug)').order('created_at', { ascending: false })
-      setComments(data || [])
+      const res = await fetch('/api/admin/comments')
+      const json = await res.json()
+      setComments(json.data || [])
     } catch { toast.error('Failed to load') } finally { setLoading(false) }
   }
 
   async function updateStatus(id, status) {
     try {
-      const { error } = await supabase.from('comments').update({ status }).eq('id', id)
-      if (error) throw error
+      const res = await fetch('/api/admin/comments', { method: 'PATCH', headers: { 'Content-Type': 'application/json' }, body: JSON.stringify({ id, status }) })
+      if (!res.ok) throw new Error('Failed')
       toast.success(`Comment ${status}`)
       loadComments()
     } catch (err) { toast.error(err.message) }
@@ -33,8 +34,8 @@ export default function CommentsPage() {
   async function deleteComment(id) {
     if (!confirm('Delete this comment?')) return
     try {
-      const { error } = await supabase.from('comments').delete().eq('id', id)
-      if (error) throw error
+      const res = await fetch('/api/admin/comments', { method: 'DELETE', headers: { 'Content-Type': 'application/json' }, body: JSON.stringify({ id }) })
+      if (!res.ok) throw new Error('Failed')
       toast.success('Deleted')
       loadComments()
     } catch (err) { toast.error(err.message) }

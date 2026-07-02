@@ -13,12 +13,9 @@ export default function AnalyticsPage() {
   useEffect(() => {
     async function load() {
       try {
-        const [views, total, published] = await Promise.all([
-          supabase.from('page_views').select('id', { count: 'exact', head: true }),
-          supabase.from('posts').select('id', { count: 'exact', head: true }),
-          supabase.from('posts').select('id', { count: 'exact', head: true }).eq('status', 'published'),
-        ])
-        setStats({ totalViews: views.count || 0, totalPosts: total.count || 0, publishedPosts: published.count || 0 })
+        const res = await fetch('/api/admin/stats')
+        const data = await res.json()
+        setStats({ totalViews: data.totalPageViews || 0, totalPosts: data.totalPosts || 0, publishedPosts: data.publishedPosts || 0 })
       } catch {} finally { setLoading(false) }
     }
     load()

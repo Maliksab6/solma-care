@@ -16,19 +16,20 @@ export default function MessagesPage() {
 
   async function loadMessages() {
     try {
-      const { data } = await supabase.from('contact_messages').select('*').order('created_at', { ascending: false })
-      setMessages(data || [])
+      const res = await fetch('/api/admin/messages')
+      const json = await res.json()
+      setMessages(json.data || [])
     } catch { toast.error('Failed to load') } finally { setLoading(false) }
   }
 
   async function markRead(id) {
-    await supabase.from('contact_messages').update({ is_read: true }).eq('id', id)
+    await fetch('/api/admin/messages', { method: 'PATCH', headers: { 'Content-Type': 'application/json' }, body: JSON.stringify({ id, is_read: true }) })
     loadMessages()
   }
 
   async function deleteMessage(id) {
     if (!confirm('Delete?')) return
-    await supabase.from('contact_messages').delete().eq('id', id)
+    await fetch('/api/admin/messages', { method: 'DELETE', headers: { 'Content-Type': 'application/json' }, body: JSON.stringify({ id }) })
     toast.success('Deleted')
     loadMessages()
   }
