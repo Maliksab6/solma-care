@@ -6,6 +6,7 @@ import { createClient as createServerClient } from '@/lib/supabaseServer'
 import siteConfig from '@/lib/config'
 
 export const dynamic = 'force-dynamic'
+export const revalidate = 0
 
 export async function generateMetadata({ params }) {
   const supabase = createServerClient()
