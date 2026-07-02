@@ -6,8 +6,45 @@ import AdminLayout from '@/components/admin/layout/AdminLayout'
 import RichTextEditor from '@/components/admin/features/RichTextEditor'
 import { createClient } from '@/lib/supabase'
 import { makeSlug, calcReadingTime } from '@/lib/utils'
-import { ArrowLeft, Save, Upload, X } from 'lucide-react'
+import { ArrowLeft, Save, Upload, X, FileCode } from 'lucide-react'
 import toast from 'react-hot-toast'
+
+function cleanImportedHtml(html) {
+  let cleaned = html
+  cleaned = cleaned.replace(/<\/?html[^>]*>/gi, '')
+  cleaned = cleaned.replace(/<\/?body[^>]*>/gi, '')
+  cleaned = cleaned.replace(/<head[\s\S]*?<\/head>/gi, '')
+  cleaned = cleaned.replace(/<!DOCTYPE[^>]*>/gi, '')
+  cleaned = cleaned.replace(/<!--[\s\S]*?-->/g, '')
+  cleaned = cleaned.replace(/<script[^>]*>[\s\S]*?<\/script>/gi, '')
+  cleaned = cleaned.replace(/<style[^>]*>[\s\S]*?<\/style>/gi, '')
+  cleaned = cleaned.replace(/<iframe[^>]*>[\s\S]*?<\/iframe>/gi, '')
+  cleaned = cleaned.replace(/<object[^>]*>[\s\S]*?<\/object>/gi, '')
+  cleaned = cleaned.replace(/<embed[^>]*>/gi, '')
+  cleaned = cleaned.replace(/<form[^>]*>[\s\S]*?<\/form>/gi, '')
+  cleaned = cleaned.replace(/<svg[^>]*>[\s\S]*?<\/svg>/gi, '')
+  cleaned = cleaned.replace(/<meta[^>]*>/gi, '')
+  cleaned = cleaned.replace(/<link[^>]*>/gi, '')
+  cleaned = cleaned.replace(/<title[^>]*>[\s\S]*?<\/title>/gi, '')
+  cleaned = cleaned.replace(/<h1([^>]*)>/gi, '<h2$1>')
+  cleaned = cleaned.replace(/<\/h1>/gi, '</h2>')
+  cleaned = cleaned.replace(/<\/?h[4-6][^>]*>/gi, '<h3>')
+  cleaned = cleaned.replace(/<b([^>]*)>/gi, '<strong$1>')
+  cleaned = cleaned.replace(/<\/b>/gi, '</strong>')
+  cleaned = cleaned.replace(/<i([^>]*)>/gi, '<em$1>')
+  cleaned = cleaned.replace(/<\/i>/gi, '</em>')
+  cleaned = cleaned.replace(/<div([^>]*)>/gi, '')
+  cleaned = cleaned.replace(/<\/div>/gi, '')
+  cleaned = cleaned.replace(/ class="[^"]*"/gi, '')
+  cleaned = cleaned.replace(/ style="[^"]*"/gi, '')
+  cleaned = cleaned.replace(/ id="[^"]*"/gi, '')
+  cleaned = cleaned.replace(/ align="[^"]*"/gi, '')
+  cleaned = cleaned.replace(/ on\w+="[^"]*"/gi, '')
+  cleaned = cleaned.replace(/javascript:/gi, '')
+  cleaned = cleaned.replace(/<p[^>]*>\s*<\/p>/gi, '')
+  cleaned = cleaned.replace(/ {2,}/g, ' ')
+  return cleaned.trim()
+}
 
 export default function EditPost() {
   const router = useRouter()
@@ -41,6 +78,38 @@ export default function EditPost() {
   }
 
   const handleContentChange = (content) => { setFormData(prev => ({ ...prev, content, reading_time: calcReadingTime(content) })) }
+
+  const handleHtmlImport = (event) => {
+    const file = event.target.files?.[0]
+    if (!file) return
+    const reader = new FileReader()
+    reader.onload = (e) => {
+      const cleaned = cleanImportedHtml(e.target.result)
+      setFormData(prev => ({ ...prev, content: prev.content + cleaned }))
+      toast.success('HTML imported!')
+    }
+    reader.readAsText(file)
+    event.target.value = ''
+  }
+
+  const handleFaqJsonImport = (event) => {
+    const file = event.target.files?.[0]
+    if (!file) return
+    const reader = new FileReader()
+    reader.onload = (e) => {
+      try {
+        const parsed = JSON.parse(e.target.result)
+        if (!Array.isArray(parsed) || !parsed.every(f => f.question && f.answer)) {
+          toast.error('Invalid format. Expected: [{"question":"...","answer":"..."}]')
+          return
+        }
+        setFormData(prev => ({ ...prev, faqs: [...(prev.faqs || []), ...parsed] }))
+        toast.success(`${parsed.length} FAQs imported!`)
+      } catch { toast.error('Invalid JSON file') }
+    }
+    reader.readAsText(file)
+    event.target.value = ''
+  }
 
   const handleImageUpload = async (event) => {
     try {
@@ -120,6 +189,12 @@ export default function EditPost() {
                   <Save size={16} /> {saving ? 'Saving...' : 'Publish Post'}
                 </button>
               </div>
+              <div className="mt-3 pt-3 border-t border-gray-100">
+                <label className="flex items-center justify-center gap-2 w-full px-3 py-2 border-2 border-dashed border-gray-200 rounded-lg text-sm text-gray-500 hover:border-blue-400 hover:text-blue-500 transition-colors cursor-pointer">
+                  <FileCode size={14} /> Import HTML
+                  <input type="file" className="hidden" accept=".html,.htm" onChange={handleHtmlImport} />
+                </label>
+              </div>
             </div>
             <div className="bg-white p-4 rounded-2xl shadow-sm border border-gray-100">
               <h3 className="font-semibold text-gray-900 mb-2 text-sm">Slug</h3>
@@ -145,7 +220,11 @@ export default function EditPost() {
               </select>
             </div>
             <div className="bg-white p-4 rounded-2xl shadow-sm border border-gray-100">
-              <h3 className="font-semibold text-gray-900 mb-2 text-sm">FAQs</h3>
+              <div className="flex items-center justify-between mb-3">
+                <h3 className="font-semibold text-gray-900 text-sm">FAQs</h3>
+                <label className="text-xs text-gray-400 hover:text-blue-500 cursor-pointer transition-colors">Import JSON</label>
+                <input type="file" className="hidden" accept=".json" onChange={handleFaqJsonImport} />
+              </div>
               <div className="space-y-3">
                 {(formData.faqs || []).map((faq, i) => (
                   <div key={i} className="bg-gray-50 rounded-lg p-3 space-y-2">
