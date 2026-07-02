@@ -1,0 +1,135 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>About — Solma Care Preview</title>
+  <script src="https://cdn.tailwindcss.com"></script>
+  <script>
+    tailwind.config = {
+      theme: {
+        extend: {
+          colors: {
+            brand: { 50:'#f0fdf6',100:'#dcfce9',200:'#bbf7d4',300:'#86efad',400:'#4ade7f',500:'#22c55e',600:'#16a34a',700:'#15803c',800:'#166533',900:'#0f4a25' },
+            surface: { DEFAULT:'#ffffff', muted:'#f8f7f4', raised:'#f2f0eb', border:'#e8e5de' },
+            ink: { DEFAULT:'#1a1a1a', muted:'#6b6560', faint:'#9c958e' },
+            accent: '#c2573a',
+          }
+        }
+      }
+    }
+  </script>
+  <style>body{font-family:system-ui,-apple-system,'Segoe UI',Roboto,sans-serif;color:#1a1a1a}</style>
+</head>
+<body>
+  <div class="bg-ink text-surface text-center text-xs py-2">Preview — About Page</div>
+
+  <!-- NAVBAR -->
+  <nav class="sticky top-0 z-50 bg-surface border-b border-surface-border">
+    <div class="max-w-6xl mx-auto flex items-center justify-between px-6 py-4">
+      <a href="preview.html" class="text-lg font-semibold text-ink hover:text-brand-700">Solma Care</a>
+      <div class="hidden md:flex items-center gap-8 text-sm text-ink-muted">
+        <a href="preview.html" class="hover:text-brand-700">Home</a>
+        <a href="#" class="text-brand-700 font-medium">About</a>
+        <a href="preview-articles.html" class="hover:text-brand-700">Articles</a>
+        <a href="preview-contact.html" class="hover:text-brand-700">Contact</a>
+      </div>
+      <a href="#" class="bg-brand-600 text-white text-sm px-5 py-2 rounded-lg font-medium hover:bg-brand-700">Ask a question</a>
+    </div>
+  </nav>
+
+  <!-- ABOUT PAGE -->
+  <section class="bg-surface">
+    <div class="max-w-3xl mx-auto px-6 py-16 md:py-24">
+      
+      <p class="text-xs font-semibold tracking-widest uppercase text-ink-faint mb-4">About</p>
+      <h1 class="text-3xl md:text-5xl font-semibold text-ink tracking-tight leading-tight">
+        About Solma Care
+      </h1>
+      
+      <div class="w-12 h-0.5 bg-brand-400 mt-8 mb-10"></div>
+
+      <div class="space-y-6 text-ink-muted text-lg leading-relaxed">
+        <p>
+          <strong class="text-ink">Solma Care</strong> is an evidence-based health resource 
+          built specifically for South Asian women dealing with PCOS, insulin resistance, 
+          thyroid conditions, and other commonly missed diagnoses.
+        </p>
+        <p>
+          Founded by <strong class="text-ink">Salma Tabbsum</strong>, Solma Care was created 
+          because the standard health advice available online doesn't account for how South Asian 
+          women's bodies work — from genetic predispositions to dietary patterns to the cultural 
+          context of seeking care.
+        </p>
+        <p>
+          Our mission is simple: provide accurate, culturally-aware health information for 
+          women in <strong class="text-ink">Pakistan and India</strong> who've been told 
+          their results are "normal" while their bodies tell a different story.
+        </p>
+      </div>
+
+      <!-- What We Cover -->
+      <div class="mt-16">
+        <h2 class="text-xl font-semibold text-ink mb-6">What We Cover</h2>
+        <div class="grid sm:grid-cols-2 gap-4">
+          <div class="bg-surface-muted border border-surface-border rounded-xl p-5">
+            <p class="text-xs font-medium text-accent mb-1">01</p>
+            <h3 class="font-semibold text-ink text-sm">PCOS & Hormonal Health</h3>
+            <p class="text-xs text-ink-muted mt-1">Symptoms, diagnosis gaps, and why standard advice fails South Asian women.</p>
+          </div>
+          <div class="bg-surface-muted border border-surface-border rounded-xl p-5">
+            <p class="text-xs font-medium text-accent mb-1">02</p>
+            <h3 class="font-semibold text-ink text-sm">Metabolic Health & Insulin Resistance</h3>
+            <p class="text-xs text-ink-muted mt-1">Insulin resistance, prediabetes, and metabolic syndrome.</p>
+          </div>
+          <div class="bg-surface-muted border border-surface-border rounded-xl p-5">
+            <p class="text-xs font-medium text-accent mb-1">03</p>
+            <h3 class="font-semibold text-ink text-sm">Thyroid & Commonly Missed Conditions</h3>
+            <p class="text-xs text-ink-muted mt-1">Hypothyroidism, vague symptoms, and diagnoses dismissed as 'just stress.'</p>
+          </div>
+          <div class="bg-surface-muted border border-surface-border rounded-xl p-5">
+            <p class="text-xs font-medium text-accent mb-1">04</p>
+            <h3 class="font-semibold text-ink text-sm">Fertility, Pregnancy & Postpartum</h3>
+            <p class="text-xs text-ink-muted mt-1">Fertility challenges and postpartum recovery specific to our bodies.</p>
+          </div>
+          <div class="bg-surface-muted border border-surface-border rounded-xl p-5">
+            <p class="text-xs font-medium text-accent mb-1">05</p>
+            <h3 class="font-semibold text-ink text-sm">Living With It</h3>
+            <p class="text-xs text-ink-muted mt-1">Daily management, mental health, and family conversations.</p>
+          </div>
+        </div>
+      </div>
+
+      <!-- CTA -->
+      <div class="mt-16 bg-surface-muted border border-surface-border rounded-2xl p-8 text-center">
+        <h2 class="text-xl font-semibold text-ink">Have a question?</h2>
+        <p class="text-ink-muted mt-2">We read every message. If we can't help, we'll point you to someone who can.</p>
+        <a href="preview-contact.html" class="inline-block mt-6 bg-brand-600 text-white px-6 py-3 rounded-lg font-medium text-sm hover:bg-brand-700 transition-colors">
+          Contact Us
+        </a>
+      </div>
+
+    </div>
+  </section>
+
+  <!-- FOOTER -->
+  <footer class="bg-ink text-surface">
+    <div class="max-w-6xl mx-auto px-6 py-12">
+      <div class="flex flex-col md:flex-row md:items-center md:justify-between gap-6">
+        <div>
+          <p class="text-lg font-semibold">Solma Care</p>
+          <p class="text-sm text-ink-faint mt-1">South Asian women's metabolic &amp; hormonal health</p>
+        </div>
+        <div class="flex gap-6">
+          <a href="#" class="text-sm text-ink-muted hover:text-surface">Instagram</a>
+          <a href="#" class="text-sm text-ink-muted hover:text-surface">TikTok</a>
+          <a href="#" class="text-sm text-ink-muted hover:text-surface">About</a>
+        </div>
+      </div>
+      <div class="border-t border-ink-faint/20 mt-8 pt-8">
+        <p class="text-xs text-ink-faint">&copy; 2025 Solma Care. All rights reserved.</p>
+      </div>
+    </div>
+  </footer>
+</body>
+</html>

@@ -5,8 +5,8 @@ import { JsonLd } from '@/components/common/JsonLd'
 import siteConfig from '@/lib/config'
 
 export const metadata = {
-  title: 'About Solma Care',
-  description: 'Why Solma Care exists, who writes it, and how every article is reviewed by a licensed physician before publication.',
+  title: 'About Solma Care — Who We Are',
+  description: 'Solma Care was founded by Salma Tabbsum to help South Asian women in Pakistan and India get accurate, evidence-based health information about PCOS, thyroid conditions, and metabolic health.',
   alternates: { canonical: `${siteConfig.url}/about` },
 }
 
@@ -14,102 +14,71 @@ export default function AboutPage() {
   const personSchema = {
     "@context": "https://schema.org",
     "@type": "Person",
-    "name": siteConfig.author,
-    "description": siteConfig.authorBio,
+    "name": "Salma Tabbsum",
+    "description": "Founder of Solma Care — evidence-based health resource for South Asian women.",
     "url": `${siteConfig.url}/about`,
-    "sameAs": Object.values(siteConfig.social).filter(Boolean),
+    "sameAs": [
+      "https://instagram.com/solmacare",
+      "https://tiktok.com/@solmacare",
+      "https://pinterest.com/solmacare",
+    ],
   }
 
   return (
     <>
       <JsonLd data={personSchema} />
       <Header />
-      <main className="min-h-screen bg-ivory">
-        <article className="max-w-prose mx-auto px-4 sm:px-6 py-16 sm:py-20">
-          <p className="text-xs uppercase tracking-widest text-terracotta mb-4">About Solma Care</p>
-          <h1 className="font-serif text-4xl text-plum leading-tight mb-8">
-            I started reading the research myself. This is what I found.
+      <main className="min-h-screen bg-white">
+        <article className="max-w-3xl mx-auto px-6 py-16 md:py-24">
+          <p className="text-xs font-semibold tracking-widest uppercase text-gray-400 mb-4">About</p>
+          <h1 className="text-3xl md:text-5xl font-semibold text-ink tracking-tight leading-tight">
+            About Solma Care
           </h1>
+          <div className="w-12 h-0.5 bg-brand-400 mt-8 mb-10"></div>
 
-          <div className="flex items-center gap-4 mb-10 pb-10 border-b border-ink/10">
-            <div className="w-16 h-16 rounded-full bg-ivory2 border border-ink/10 shrink-0 overflow-hidden">
-              <img src="/profile.png" alt={siteConfig.author} className="w-full h-full object-cover" />
-            </div>
-            <div>
-              <p className="font-serif text-lg text-ink">{siteConfig.author}</p>
-              <p className="text-xs uppercase tracking-wide text-terracotta">
-                Researcher · Writer · South Asian woman who has been there
-              </p>
-            </div>
-          </div>
-
-          <div className="space-y-6 text-ink leading-relaxed">
+          <div className="space-y-6 text-gray-500 text-lg leading-relaxed">
             <p>
-              I was forty-three when I finally understood what had been
-              happening in my body for two decades. Not because my doctor
-              explained it. Because I started reading the research myself —
-              PubMed papers, clinical guidelines, studies most people never see
-              because they&rsquo;re written for other clinicians, not for
-              patients.
+              <strong className="text-ink">Solma Care</strong> is an evidence-based health resource 
+              built specifically for South Asian women dealing with PCOS, insulin resistance, 
+              thyroid conditions, and other commonly missed diagnoses.
             </p>
             <p>
-              What I found, over and over, was the same gap. Reference ranges
-              for insulin, thyroid, and hormone panels were built on Western
-              populations. South Asian women can sit comfortably inside those
-              ranges while already showing insulin resistance, PCOS symptoms, or
-              thyroid dysfunction that a South-Asian-calibrated range would have
-              flagged years earlier. We are told we are &ldquo;normal.&rdquo;
-              Our bodies disagree.
+              Founded by <strong className="text-ink">Salma Tabbsum</strong>, Solma Care was created 
+              because the standard health advice available online doesn&rsquo;t account for how South Asian 
+              women&rsquo;s bodies work — from genetic predispositions to dietary patterns to the cultural 
+              context of seeking care.
             </p>
             <p>
-              Solma Care is my attempt to close that gap for other women going
-              through the same thing — not with opinions, but with the same
-              research I went looking for myself, translated into something
-              readable.
-            </p>
-
-            <h2 className="font-serif text-2xl text-plum pt-6">
-              A note on who I am — and who I am not
-            </h2>
-            <p>
-              I am a researcher and a writer. I am not a doctor, and I am not
-              claiming to be one. My role on this site is to find the evidence,
-              explain it clearly, and write from lived experience as a South
-              Asian woman who has navigated these conditions herself. Nothing
-              here is a diagnosis or a prescription.
-            </p>
-
-            <h2 id="medical-review-policy" className="font-serif text-2xl text-plum pt-6">
-              Our medical review policy
-            </h2>
-            <p>
-              Every article on Solma Care is reviewed by a licensed physician
-              before it is published. For privacy reasons, our reviewing
-              physician is not named publicly on the site — this is a deliberate
-              choice, not an oversight, and it does not change the rigor of the
-              review. What it means in practice:
-            </p>
-            <ul className="list-disc pl-6 space-y-2">
-              <li>Every clinical claim is sourced from primary literature — PubMed, ACOG, NIH, or StatPearls — not from other blogs or secondary summaries.</li>
-              <li>A licensed physician reviews each article for medical accuracy before it goes live.</li>
-              <li>Articles are updated when new research materially changes the picture.</li>
-              <li>Nothing on this site replaces an in-person evaluation by your own doctor.</li>
-            </ul>
-
-            <h2 className="font-serif text-2xl text-plum pt-6">Our mission</h2>
-            <p>
-              To give South Asian women the information they need to advocate
-              for themselves in the exam room — clearly, without jargon, and
-              without pretending a blog post can replace a doctor.
+              Our mission is simple: provide accurate, culturally-aware health information for 
+              women in <strong className="text-ink">Pakistan and India</strong> who&rsquo;ve been told 
+              their results are &ldquo;normal&rdquo; while their bodies tell a different story.
             </p>
           </div>
 
-          <div className="mt-14 pt-8 border-t border-ink/10 flex flex-wrap gap-4">
-            <Link href="/articles" className="bg-plum text-ivory px-6 py-3 rounded-full text-sm hover:bg-terracotta transition-colors">
-              Start reading
-            </Link>
-            <Link href="/contact" className="border border-plum text-plum px-6 py-3 rounded-full text-sm hover:bg-plum hover:text-ivory transition-colors">
-              Ask a question →
+          <div className="mt-16">
+            <h2 className="text-xl font-semibold text-ink mb-6">What We Cover</h2>
+            <div className="grid sm:grid-cols-2 gap-4">
+              {[
+                { num: '01', title: 'PCOS & Hormonal Health', desc: 'Symptoms, diagnosis gaps, and why standard advice fails South Asian women.' },
+                { num: '02', title: 'Metabolic Health & Insulin Resistance', desc: 'Insulin resistance, prediabetes, and metabolic syndrome.' },
+                { num: '03', title: 'Thyroid & Commonly Missed Conditions', desc: "Hypothyroidism, vague symptoms, and diagnoses dismissed as 'just stress.'" },
+                { num: '04', title: 'Fertility, Pregnancy & Postpartum', desc: 'Fertility challenges and postpartum recovery specific to our bodies.' },
+                { num: '05', title: 'Living With It', desc: 'Daily management, mental health, and family conversations.' },
+              ].map((item) => (
+                <div key={item.num} className="bg-surface-muted border border-surface-border rounded-xl p-5">
+                  <p className="text-xs font-medium text-accent mb-1">{item.num}</p>
+                  <h3 className="font-semibold text-ink text-sm">{item.title}</h3>
+                  <p className="text-xs text-gray-500 mt-1 leading-relaxed">{item.desc}</p>
+                </div>
+              ))}
+            </div>
+          </div>
+
+          <div className="mt-16 bg-surface-muted border border-surface-border rounded-2xl p-8 text-center">
+            <h2 className="text-xl font-semibold text-ink">Have a question?</h2>
+            <p className="text-gray-500 mt-2">We read every message. If we can&rsquo;t help, we&rsquo;ll point you to someone who can.</p>
+            <Link href="/contact" className="inline-block mt-6 bg-brand-600 text-white px-6 py-3 rounded-lg font-medium text-sm hover:bg-brand-700 transition-colors">
+              Contact Us
             </Link>
           </div>
         </article>

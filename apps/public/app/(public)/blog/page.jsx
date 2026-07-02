@@ -2,7 +2,6 @@ import Link from 'next/link'
 import Header from '@/components/common/Header'
 import Footer from '@/components/common/Footer'
 import PostCard from '@/components/blog/PostCard'
-import { JsonLd } from '@/components/common/JsonLd'
 import { createClient as createServerClient } from '@/lib/supabaseServer'
 import siteConfig from '@/lib/config'
 
@@ -50,58 +49,49 @@ export default async function BlogPage({ searchParams }) {
   return (
     <>
       <Header />
-      <main className="min-h-screen bg-ivory">
-        <div className="max-w-6xl mx-auto px-4 sm:px-6 pt-12 pb-20">
-          <div className="mb-10">
-            <p className="text-xs uppercase tracking-widest text-terracotta mb-3">Articles</p>
-            <h1 className="font-serif text-4xl sm:text-5xl text-plum mb-4">
+      <main className="min-h-screen">
+        <section className="bg-surface-muted border-b border-surface-border">
+          <div className="max-w-6xl mx-auto px-6 py-12 md:py-16">
+            <p className="text-xs font-semibold tracking-widest uppercase text-gray-400 mb-3">Articles</p>
+            <h1 className="text-3xl md:text-5xl font-semibold text-ink tracking-tight">
               {q ? `Search: "${q}"` : 'All Articles'}
             </h1>
-            <p className="text-ink2 max-w-2xl">
+            <p className="text-gray-500 mt-3 max-w-2xl text-lg">
               Physician-reviewed articles on PCOS, insulin resistance, thyroid,
               fertility, and the conditions doctors keep calling normal.
             </p>
           </div>
+        </section>
 
-          {categories && categories.length > 0 && (
-            <div className="flex flex-wrap gap-2 mb-10">
-              <Link
-                href="/articles"
-                className={`px-4 py-1.5 rounded-full border text-sm transition-colors ${
-                  !q ? 'border-plum text-plum bg-plum/5' : 'border-ink/15 text-ink2 hover:border-plum hover:text-plum'
-                }`}
-              >
-                All
-              </Link>
-              {categories.map((cat) => (
-                <Link
-                  key={cat.id}
-                  href={`/topics/${cat.slug}`}
-                  className="px-4 py-1.5 rounded-full border border-ink/15 text-sm text-ink2 hover:border-plum hover:text-plum transition-colors"
-                >
-                  {cat.name}
-                </Link>
-              ))}
+        {categories.length > 0 && (
+          <section className="bg-white border-b border-surface-border">
+            <div className="max-w-6xl mx-auto px-6 py-4">
+              <div className="flex flex-wrap gap-2">
+                <Link href="/articles" className={`px-4 py-1.5 rounded-full text-sm font-medium ${!q ? 'bg-ink text-white' : 'text-gray-500 border border-surface-border hover:border-brand-500 hover:text-brand-700'} transition-colors`}>All</Link>
+                {categories.map((cat) => (
+                  <Link key={cat.id} href={`/topics/${cat.slug}`} className="px-4 py-1.5 rounded-full text-sm font-medium text-gray-500 border border-surface-border hover:border-brand-500 hover:text-brand-700 transition-colors">{cat.name}</Link>
+                ))}
+              </div>
             </div>
-          )}
+          </section>
+        )}
 
-          {!posts || posts.length === 0 ? (
-            <div className="text-center py-20 bg-ivory2 rounded-2xl border border-ink/10">
-              <h3 className="text-xl font-serif font-semibold text-plum">
-                {q ? 'No articles found' : 'No articles yet'}
-              </h3>
-              <p className="text-ink2 mt-2">
-                {q ? 'Try a different search term.' : 'Check back soon — we publish physician-reviewed content regularly.'}
-              </p>
-            </div>
-          ) : (
-            <div className="grid sm:grid-cols-2 lg:grid-cols-3 gap-6">
-              {posts.map((post, i) => (
-                <PostCard key={post.id} post={post} index={i} />
-              ))}
-            </div>
-          )}
-        </div>
+        <section className="bg-white">
+          <div className="max-w-6xl mx-auto px-6 py-12 md:py-16">
+            {posts.length === 0 ? (
+              <div className="text-center py-20 bg-surface-muted rounded-2xl border border-surface-border">
+                <h3 className="text-xl font-semibold text-ink">{q ? 'No articles found' : 'No articles yet'}</h3>
+                <p className="text-gray-500 mt-2">{q ? 'Try a different search term.' : 'Check back soon — we publish physician-reviewed content regularly.'}</p>
+              </div>
+            ) : (
+              <div className="grid sm:grid-cols-2 lg:grid-cols-3 gap-6">
+                {posts.map((post, i) => (
+                  <PostCard key={post.id} post={post} index={i} />
+                ))}
+              </div>
+            )}
+          </div>
+        </section>
       </main>
       <Footer />
     </>

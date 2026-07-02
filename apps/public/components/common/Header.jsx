@@ -66,7 +66,7 @@ export default function Header() {
 
   return (
     <>
-      <div className="bg-plum text-gold text-center text-xs sm:text-sm py-2 px-4">
+      <div className="bg-ink text-white text-center text-xs sm:text-sm py-2 px-4">
         <Link href="/articles" className="hover:underline">
           New: Why your PCOS looks different from the textbook — the South
           Asian phenotype, explained →
@@ -76,23 +76,22 @@ export default function Header() {
       <header
         className={`sticky top-0 z-40 transition-all duration-300 ${
           scrolled
-            ? 'bg-ivory/95 backdrop-blur-md border-b border-ink/5 shadow-sm'
-            : 'bg-ivory/95 backdrop-blur border-b border-ink/5'
+            ? 'bg-white/95 backdrop-blur-md border-b border-surface-border shadow-sm'
+            : 'bg-white/95 backdrop-blur border-b border-surface-border'
         }`}
       >
         <div className="max-w-6xl mx-auto flex items-center justify-between px-4 sm:px-6 py-4">
-          <Link href="/" className="font-serif text-2xl tracking-tight">
-            <span className="text-plum">solma</span>
-            <span className="text-terracotta">care</span>
+          <Link href="/" className="text-lg font-semibold text-ink hover:text-brand-700 transition-colors">
+            Solma Care
           </Link>
 
-          <nav className="hidden md:flex items-center gap-8 text-sm text-ink2">
+          <nav className="hidden md:flex items-center gap-8 text-sm text-gray-500">
             {navLinks.map(({ href, label }) => (
               <Link
                 key={href}
                 href={href}
-                className={`hover:text-plum transition-colors ${
-                  pathname.startsWith(href) ? 'text-plum font-medium' : ''
+                className={`hover:text-brand-700 transition-colors ${
+                  pathname.startsWith(href) ? 'text-brand-700 font-medium' : ''
                 }`}
               >
                 {label}
@@ -105,7 +104,7 @@ export default function Header() {
               <div
                 className={`flex items-center gap-2 transition-all duration-300 overflow-hidden ${
                   searchOpen
-                    ? 'w-52 bg-white border border-ink/15 rounded-full px-4 py-1.5 shadow-sm'
+                    ? 'w-52 bg-surface-muted border border-surface-border rounded-lg px-4 py-1.5 shadow-sm'
                     : 'w-9'
                 }`}
               >
@@ -117,13 +116,13 @@ export default function Header() {
                       onChange={e => setSearchQuery(e.target.value)}
                       onKeyDown={e => e.key === 'Escape' && setSearchOpen(false)}
                       placeholder="Search articles..."
-                      className="flex-1 bg-transparent text-sm text-ink placeholder-ink2/50 outline-none"
+                      className="flex-1 bg-transparent text-sm text-ink placeholder-gray-400 outline-none"
                     />
                   </form>
                 )}
                 <button
                   onClick={() => { setSearchOpen(v => !v); setSearchQuery(''); setSuggestions([]) }}
-                  className="w-8 h-8 flex items-center justify-center rounded-full text-ink2 hover:text-plum hover:bg-plum/5 transition-colors shrink-0"
+                  className="w-8 h-8 flex items-center justify-center rounded-full text-gray-400 hover:text-brand-700 hover:bg-brand-50 transition-colors shrink-0"
                   aria-label="Toggle search"
                 >
                   {searchOpen ? (
@@ -139,13 +138,13 @@ export default function Header() {
                 </button>
               </div>
               {searchOpen && suggestions.length > 0 && (
-                <div className="absolute right-0 top-full mt-2 w-72 bg-white rounded-xl shadow-xl border border-ink/10 overflow-hidden z-50">
-                  <ul className="divide-y divide-ink/5">
+                <div className="absolute right-0 top-full mt-2 w-72 bg-white rounded-xl shadow-xl border border-surface-border overflow-hidden z-50">
+                  <ul className="divide-y divide-surface-border">
                     {suggestions.map(p => (
                       <li key={p.id}>
-                        <Link href={`/articles/${p.slug}`} onClick={() => { setSearchOpen(false); setSearchQuery(''); setSuggestions([]) }} className="flex flex-col px-4 py-2.5 hover:bg-ivory2 transition-colors">
+                        <Link href={`/articles/${p.slug}`} onClick={() => { setSearchOpen(false); setSearchQuery(''); setSuggestions([]) }} className="flex flex-col px-4 py-2.5 hover:bg-surface-muted transition-colors">
                           <span className="text-sm font-medium text-ink">{p.title}</span>
-                          {p.category && <span className="text-xs text-terracotta">{p.category.name}</span>}
+                          {p.category && <span className="text-xs text-accent">{p.category.name}</span>}
                         </Link>
                       </li>
                     ))}
@@ -156,13 +155,13 @@ export default function Header() {
 
             <Link
               href="/contact"
-              className="rounded-full bg-plum text-ivory text-xs sm:text-sm px-3 sm:px-5 py-1.5 sm:py-2 hover:bg-terracotta transition-colors whitespace-nowrap"
+              className="rounded-full bg-brand-600 text-white text-xs sm:text-sm px-3 sm:px-5 py-1.5 sm:py-2 hover:bg-brand-700 transition-colors whitespace-nowrap"
             >
               Ask a question
             </Link>
 
             <button
-              className="md:hidden w-9 h-9 flex items-center justify-center rounded-md text-plum hover:bg-plum/5 transition-colors"
+              className="md:hidden w-9 h-9 flex items-center justify-center rounded-md text-ink hover:bg-surface-muted transition-colors"
               onClick={() => setMobileOpen(v => !v)}
               aria-label="Toggle menu"
             >
@@ -180,7 +179,7 @@ export default function Header() {
         </div>
 
         {mobileOpen && (
-          <div className="md:hidden border-t border-ink/10 bg-ivory px-4 pt-3 pb-5">
+          <div className="md:hidden border-t border-surface-border bg-white px-4 pt-3 pb-5">
             <div className="flex flex-col gap-1">
               {navLinks.map(({ href, label }) => (
                 <Link
@@ -189,22 +188,22 @@ export default function Header() {
                   onClick={() => setMobileOpen(false)}
                   className={`px-3 py-2.5 rounded-lg text-sm font-medium transition-colors ${
                     pathname.startsWith(href)
-                      ? 'bg-plum text-ivory'
-                      : 'text-ink2 hover:bg-plum/5 hover:text-plum'
+                      ? 'bg-brand-600 text-white'
+                      : 'text-gray-600 hover:bg-brand-50 hover:text-brand-700'
                   }`}
                 >
                   {label}
                 </Link>
               ))}
-              <div className="mt-3 pt-3 border-t border-ink/10">
+              <div className="mt-3 pt-3 border-t border-surface-border">
                 <form onSubmit={handleSearch} className="flex items-center gap-2">
                   <input
                     value={searchQuery}
                     onChange={e => setSearchQuery(e.target.value)}
                     placeholder="Search articles..."
-                    className="flex-1 bg-white border border-ink/15 rounded-full px-4 py-2 text-sm text-ink placeholder-ink2/50 outline-none focus:border-plum"
+                    className="flex-1 bg-surface-muted border border-surface-border rounded-lg px-4 py-2 text-sm text-ink placeholder-gray-400 outline-none focus:border-brand-500"
                   />
-                  <button type="submit" className="p-2 bg-plum text-ivory rounded-full hover:bg-terracotta transition-colors shrink-0" aria-label="Search">
+                  <button type="submit" className="p-2 bg-brand-600 text-white rounded-lg hover:bg-brand-700 transition-colors shrink-0" aria-label="Search">
                     <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.5" strokeLinecap="round"><circle cx="11" cy="11" r="8"/><path d="M21 21l-4.35-4.35"/></svg>
                   </button>
                 </form>

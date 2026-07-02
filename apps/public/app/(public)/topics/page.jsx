@@ -18,57 +18,41 @@ export default async function TopicsPage() {
     ? (await supabase.from('categories').select('*').order('created_at', { ascending: true })).data || []
     : []
 
-  const categoryColors = {
-    'pcos': { border: 'border-terracotta', text: 'text-terracotta', bg: 'bg-terracotta/10' },
-    'metabolic-health': { border: 'border-plum', text: 'text-plum', bg: 'bg-plum/10' },
-    'fertility': { border: 'border-sage', text: 'text-sage', bg: 'bg-sage/10' },
-    'missed-conditions': { border: 'border-gold', text: 'text-gold', bg: 'bg-gold/10' },
-    'living-with-it': { border: 'border-violet', text: 'text-violet', bg: 'bg-violet/10' },
-  }
-
   return (
     <>
       <Header />
-      <main className="min-h-screen bg-ivory">
-        <div className="max-w-6xl mx-auto px-4 sm:px-6 pt-12 pb-20">
-          <p className="text-xs uppercase tracking-widest text-terracotta mb-3">Topics</p>
-          <h1 className="font-serif text-4xl sm:text-5xl text-plum mb-4">What We Cover</h1>
-          <p className="text-ink2 max-w-2xl mb-12">
-            Physician-reviewed information organized by the conditions and
+      <main className="min-h-screen bg-surface-muted border-b border-surface-border">
+        <div className="max-w-6xl mx-auto px-6 py-12 md:py-16">
+          <p className="text-xs font-semibold tracking-widest uppercase text-gray-400 mb-3">Topics</p>
+          <h1 className="text-3xl md:text-5xl font-semibold text-ink tracking-tight">What We Cover</h1>
+          <p className="text-gray-500 mt-3 max-w-2xl text-lg">
+            Physician-reviewed information organized by the conditions and 
             experiences most relevant to South Asian women.
           </p>
+        </div>
+      </main>
 
-          {!categories || categories.length === 0 ? (
-            <div className="text-center py-20 bg-ivory2 rounded-2xl border border-ink/10">
-              <h3 className="text-xl font-serif font-semibold text-plum">No topics yet</h3>
-              <p className="text-ink2 mt-2">Categories will appear here once created in the admin panel.</p>
+      <section className="bg-white">
+        <div className="max-w-6xl mx-auto px-6 py-12 md:py-16">
+          {categories.length === 0 ? (
+            <div className="text-center py-20 bg-surface-muted rounded-2xl border border-surface-border">
+              <h3 className="text-xl font-semibold text-ink">No topics yet</h3>
+              <p className="text-gray-500 mt-2">Categories will appear here once created in the admin panel.</p>
             </div>
           ) : (
             <div className="grid sm:grid-cols-2 lg:grid-cols-3 gap-6">
-              {categories.map((cat) => {
-                const colors = categoryColors[cat.slug] || { border: 'border-terracotta', text: 'text-terracotta', bg: 'bg-terracotta/10' }
-                return (
-                  <Link
-                    key={cat.id}
-                    href={`/topics/${cat.slug}`}
-                    className={`block p-6 bg-ivory2/60 hover:bg-ivory2 border-l-2 ${colors.border} rounded-r-lg transition-all hover:shadow-md group`}
-                  >
-                    <h2 className="font-serif text-xl text-ink mb-2 group-hover:text-plum transition-colors">
-                      {cat.name}
-                    </h2>
-                    {cat.description && (
-                      <p className="text-sm text-ink2">{cat.description}</p>
-                    )}
-                    <span className={`inline-block mt-4 text-xs font-medium ${colors.text}`}>
-                      Browse articles →
-                    </span>
-                  </Link>
-                )
-              })}
+              {categories.map((cat) => (
+                <Link key={cat.id} href={`/topics/${cat.slug}`} className="group block bg-surface-muted border border-surface-border rounded-xl p-6 hover:border-accent hover:bg-white transition-all duration-200">
+                  <p className="text-xs font-medium text-accent mb-2">{cat.slug}</p>
+                  <h2 className="text-lg font-semibold text-ink group-hover:text-brand-700 transition-colors">{cat.name}</h2>
+                  {cat.description && <p className="text-sm text-gray-500 mt-2 leading-relaxed">{cat.description}</p>}
+                  <p className="text-xs text-brand-700 font-medium mt-4">Browse articles →</p>
+                </Link>
+              ))}
             </div>
           )}
         </div>
-      </main>
+      </section>
       <Footer />
     </>
   )

@@ -17,8 +17,11 @@ const dmSans = DM_Sans({
 
 export const metadata = {
   metadataBase: new URL(siteConfig.url),
-  title: { default: `${siteConfig.name} — Hormonal Health for South Asian Women`, template: `%s | ${siteConfig.name}` },
-  description: siteConfig.description,
+  title: {
+    default: `${siteConfig.name} — South Asian Women's Metabolic & Hormonal Health`,
+    template: `%s | ${siteConfig.name}`,
+  },
+  description: `${siteConfig.name} provides evidence-based health guidance on PCOS, insulin resistance, thyroid conditions, and metabolic health — specifically for South Asian women in Pakistan and India who've been told their results are "normal."`,
   keywords: [
     "South Asian women's health",
     "PCOS South Asian women",
@@ -26,6 +29,9 @@ export const metadata = {
     "hormonal health blog",
     "thyroid South Asian women",
     "South Asian fertility",
+    "PCOS Pakistan",
+    "PCOS India",
+    "metabolic health South Asian",
   ],
   icons: {
     icon: '/favicon.ico',
@@ -51,8 +57,9 @@ export const metadata = {
     type: 'website',
     url: siteConfig.url,
     siteName: siteConfig.name,
-    title: `${siteConfig.name} — Hormonal Health for South Asian Women`,
-    description: "Your results were 'normal.' Your body disagreed. Physician-reviewed hormonal and metabolic health content written for South Asian women.",
+    locale: 'en_PK',
+    title: `${siteConfig.name} — Your Results Were "Normal". Your Body Disagreed.`,
+    description: 'Evidence-based metabolic and hormonal health guidance for South Asian women. PCOS, thyroid, insulin resistance — the diagnoses that get missed.',
     images: [
       {
         url: '/og-image.jpg',
@@ -61,12 +68,11 @@ export const metadata = {
         alt: `${siteConfig.name} — Hormonal health for South Asian women`,
       },
     ],
-    locale: 'en_US',
   },
   twitter: {
     card: 'summary_large_image',
-    title: `${siteConfig.name} — Hormonal Health for South Asian Women`,
-    description: 'Physician-reviewed hormonal and metabolic health content, written for South Asian women.',
+    title: `${siteConfig.name} — South Asian Women's Health`,
+    description: 'PCOS, insulin resistance, thyroid conditions — evidence-based guidance for South Asian women.',
     images: ['/og-image.jpg'],
   },
   alternates: {
@@ -87,12 +93,16 @@ const organizationSchema = {
   name: siteConfig.name,
   url: siteConfig.url,
   logo: `${siteConfig.url}/logo.png`,
-  description: siteConfig.description,
+  description: 'Evidence-based health resource for South Asian women dealing with PCOS, insulin resistance, thyroid conditions, and metabolic health in Pakistan and India.',
   founder: {
     '@type': 'Person',
-    name: siteConfig.author,
+    name: 'Salma Tabbsum',
   },
-  sameAs: Object.values(siteConfig.social).filter(Boolean),
+  sameAs: [
+    'https://instagram.com/solmacare',
+    'https://tiktok.com/@solmacare',
+    'https://pinterest.com/solmacare',
+  ],
 }
 
 const websiteSchema = {

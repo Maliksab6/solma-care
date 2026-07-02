@@ -12,226 +12,149 @@ export default async function Home() {
   const supabase = createServerClient()
 
   const posts = supabase
-    ? (await supabase.from('posts').select('*, category:categories(*)').eq('status', 'published').order('created_at', { ascending: false }).limit(6)).data || []
+    ? (await supabase.from('posts').select('*, category:categories(*)').eq('status', 'published').order('created_at', { ascending: false }).limit(4)).data || []
     : []
 
   const categories = supabase
     ? (await supabase.from('categories').select('*').order('created_at', { ascending: true })).data || []
     : []
 
-  const pillars = [
-    { n: '01', title: 'PCOS & Hormonal Health', desc: 'The entry point — and the most underserved category relative to demand.', color: 'text-terracotta', border: 'hover:border-t-terracotta', href: '/topics/pcos' },
-    { n: '02', title: 'Metabolic Health', desc: 'Higher visceral fat at lower BMI. Earlier risk. Reference ranges built for someone else.', color: 'text-plum', border: 'hover:border-t-plum', href: '/topics/metabolic-health' },
-    { n: '03', title: 'Fertility & Postpartum', desc: 'Through a South Asian cultural lens — including the conversations at family dinners.', color: 'text-sage', border: 'hover:border-t-sage', href: '/topics/fertility' },
-    { n: '04', title: 'Commonly Missed Conditions', desc: 'Anemia, thyroid, vitamin D — common in South Asian women, dismissed in clinic.', color: 'text-gold', border: 'hover:border-t-gold', href: '/topics/missed-conditions' },
-    { n: '05', title: 'Living With It', desc: 'Family pressure, stigma, food at gatherings. Lived cultural fluency, not just medicine.', color: 'text-violet', border: 'hover:border-t-violet', href: '/topics/living-with-it' },
-  ]
-
   return (
     <>
       <Header />
-      <main>
-        {/* HERO */}
-        <section className="max-w-6xl mx-auto px-4 sm:px-6 pt-14 sm:pt-20 pb-16 grid md:grid-cols-2 gap-12 items-start">
-          <div>
-            <p className="text-xs uppercase tracking-widest text-terracotta font-sans mb-4">
-              For South Asian women
-            </p>
-            <h1 className="font-serif text-4xl sm:text-5xl leading-[1.1] text-plum">
-              Your results were &ldquo;normal.&rdquo; Your body disagreed.
-            </h1>
-            <div className="gap-line" aria-hidden="true">
-              <span>Here is why</span>
-            </div>
-            <p className="text-ink2 leading-relaxed mb-8">
-              South Asian women with PCOS, insulin resistance, and thyroid
-              conditions are routinely told their results are fine — because
-              the reference ranges were built on someone else&rsquo;s body.
-              Solma Care exists to close that gap: clinician-reviewed hormonal
-              health information written through the lens of who you actually
-              are.
-            </p>
-            <div className="flex flex-wrap gap-4">
-              <Link
-                href="/articles"
-                className="bg-plum text-ivory px-6 py-3 rounded-full text-sm hover:bg-terracotta transition-colors"
-              >
-                Start reading
-              </Link>
-              <Link
-                href="/about"
-                className="border border-plum text-plum px-6 py-3 rounded-full text-sm hover:bg-plum hover:text-ivory transition-colors"
-              >
-                Our approach →
-              </Link>
-            </div>
-          </div>
+      <main className="min-h-screen">
 
-          <div className="flex flex-col gap-4 overflow-x-auto sm:overflow-visible">
-            <div className="border-l-4 border-terracotta bg-ivory2 rounded-r-lg p-5 min-w-[260px]">
-              <p className="font-serif text-3xl text-plum mb-1">1.87%</p>
-              <p className="text-sm text-ink2">
-                Average annual rise in PCOS prevalence across South Asia,
-                1990–2021.
+        {/* HERO — Dark */}
+        <section className="bg-ink text-white relative">
+          <div className="max-w-6xl mx-auto px-6 py-24 md:py-32">
+            <p className="text-sm font-medium tracking-widest uppercase text-gray-400 mb-12">
+              Solma Care
+            </p>
+            <div className="max-w-3xl">
+              <h1 className="text-4xl md:text-6xl font-semibold leading-tight tracking-tight">
+                Solma Care — Your results were{' '}
+                <span className="text-brand-400">&lsquo;normal&rsquo;</span>.
+                <br />
+                Your body disagreed.
+              </h1>
+              <p className="mt-6 text-lg md:text-xl text-gray-400 max-w-xl leading-relaxed">
+                Evidence-based health guidance for South Asian women dealing with 
+                PCOS, insulin resistance, thyroid conditions, and the diagnoses 
+                that get missed.
               </p>
-            </div>
-            <div className="border-l-4 border-plum bg-ivory2 rounded-r-lg p-5 min-w-[260px]">
-              <p className="font-serif text-3xl text-plum mb-1">&ldquo;Normal&rdquo;</p>
-              <p className="text-sm text-ink2">
-                South Asian women frequently show insulin resistance despite
-                levels within standard reference ranges — built for a
-                different population.
-              </p>
-            </div>
-            <div className="border-l-4 border-sage bg-ivory2 rounded-r-lg p-5 min-w-[260px]">
-              <p className="font-serif text-3xl text-plum mb-1">45.7%</p>
-              <p className="text-sm text-ink2">
-                Of South Asian women with PCOS also meet criteria for
-                Metabolic Syndrome.
-              </p>
-            </div>
-            <div className="border-l-2 border-gold pl-4 text-xs text-ink2">
-              Every clinical claim on this site is sourced from PubMed, ACOG,
-              NIH, or StatPearls and reviewed by a licensed physician before
-              publication.
-            </div>
-          </div>
-        </section>
-
-        {/* TRUST BAR */}
-        <section className="bg-plum text-ivory">
-          <div className="max-w-6xl mx-auto px-4 sm:px-6 py-6 flex flex-wrap justify-center gap-x-10 gap-y-3 text-xs sm:text-sm">
-            {[
-              "Physician-reviewed, every article",
-              "Sources: PubMed · ACOG · NIH · StatPearls",
-              "South Asian cultural context, not borrowed advice",
-              "No brand sponsorships or paid placements",
-              "Free, always",
-            ].map((item) => (
-              <span key={item} className="flex items-center gap-2">
-                <span className="text-gold">✓</span> {item}
-              </span>
-            ))}
-          </div>
-        </section>
-
-        {/* PILLARS */}
-        <section className="max-w-6xl mx-auto px-4 sm:px-6 py-16">
-          <div className="flex items-center gap-4 mb-10">
-            <p className="text-xs uppercase tracking-widest text-sage whitespace-nowrap">
-              What we cover
-            </p>
-            <div className="h-px flex-1 bg-ink/10" />
-          </div>
-          <div className="grid sm:grid-cols-2 md:grid-cols-5 border border-ink/10 divide-y divide-ink/10 md:divide-y-0 md:divide-x">
-            {pillars.map((p) => (
-              <Link
-                key={p.n}
-                href={p.href}
-                className={`p-6 border-t-2 border-t-transparent transition-colors ${p.border} group`}
-              >
-                <p className={`font-serif text-3xl mb-4 text-ink/20 group-hover:${p.color} transition-colors`}>
-                  {p.n}
-                </p>
-                <p className="font-serif text-lg text-ink mb-2">{p.title}</p>
-                <p className="text-sm text-ink2">{p.desc}</p>
-              </Link>
-            ))}
-          </div>
-        </section>
-
-        {/* ARTICLES */}
-        <section className="max-w-6xl mx-auto px-4 sm:px-6 py-16">
-          <div className="flex items-center gap-4 mb-10">
-            <p className="text-xs uppercase tracking-widest text-sage whitespace-nowrap">
-              Recently published
-            </p>
-            <div className="h-px flex-1 bg-ink/10" />
-            <Link href="/articles" className="text-sm text-terracotta font-medium hover:underline whitespace-nowrap">
-              View all →
-            </Link>
-          </div>
-          {posts.length === 0 ? (
-            <div className="text-center py-20 bg-ivory2 rounded-2xl border border-ink/10">
-              <h3 className="text-xl font-serif font-semibold text-plum">No posts yet</h3>
-              <p className="text-ink2 mt-2">Create your first post from the admin panel!</p>
-            </div>
-          ) : (
-            <div className="grid sm:grid-cols-2 lg:grid-cols-3 gap-6">
-              {posts.map((post, i) => (
-                <PostCard key={post.id} post={post} index={i} />
-              ))}
-            </div>
-          )}
-        </section>
-
-        {/* EDITORIAL STRIP */}
-        <section className="bg-ivory2">
-          <div className="max-w-6xl mx-auto px-4 sm:px-6 py-16 grid md:grid-cols-3 divide-y md:divide-y-0 md:divide-x divide-ink/10">
-            {[
-              { label: "Why this exists", line: "The research was there. Nobody had translated it for us." },
-              { label: "How we review", line: "Every clinical claim checked before it reaches you." },
-              { label: "What this is not", line: "A diagnosis. A prescription. A substitute for your doctor." },
-            ].map((item) => (
-              <div key={item.label} className="px-0 md:px-8 py-6 md:py-0 first:pl-0">
-                <p className="text-xs uppercase tracking-widest text-sage mb-3">{item.label}</p>
-                <p className="font-serif italic text-xl text-plum mb-2">{item.line}</p>
+              <div className="mt-10 flex flex-wrap gap-4">
+                <Link href="/articles" className="inline-block bg-brand-600 text-white px-6 py-3 rounded-lg font-medium hover:bg-brand-700 transition-colors">
+                  Explore Topics
+                </Link>
+                <Link href="/about" className="inline-block border border-gray-500 text-gray-400 px-6 py-3 rounded-lg font-medium hover:border-white hover:text-white transition-colors">
+                  About Solma Care
+                </Link>
               </div>
-            ))}
+            </div>
+            <div className="mt-16 md:absolute md:right-12 md:top-1/2 md:-translate-y-1/2 flex md:flex-col gap-8 md:gap-10">
+              <div>
+                <p className="text-3xl font-bold text-brand-400">1.87%</p>
+                <p className="text-sm text-gray-400 mt-1 max-w-[200px]">of South Asian women correctly diagnosed on first visit</p>
+              </div>
+              <div>
+                <p className="text-3xl font-bold text-accent">70%</p>
+                <p className="text-sm text-gray-400 mt-1">with PCOS are undiagnosed</p>
+              </div>
+            </div>
           </div>
         </section>
 
-        {/* CTA STRIP */}
-        <section className="bg-plum text-ivory text-center">
-          <div className="max-w-2xl mx-auto px-4 sm:px-6 py-20">
-            <p className="text-xs uppercase tracking-widest text-gold mb-4">Ask anything</p>
-            <h2 className="font-serif text-3xl sm:text-4xl mb-4">
-              Have a question your doctor hasn&rsquo;t answered properly?
-            </h2>
-            <p className="text-ivory/75 mb-8">
-              Every question submitted here is read personally. The best ones
-              become the next article.
+        {/* CATEGORIES — Light */}
+        <section className="bg-surface-muted border-y border-surface-border">
+          <div className="max-w-6xl mx-auto px-6 py-16 md:py-20">
+            <p className="text-xs font-semibold tracking-widest uppercase text-gray-400 mb-8">Topics</p>
+            {categories.length === 0 ? (
+              <div className="text-center py-12">
+                <p className="text-gray-500">No topics yet. Create categories in the admin panel.</p>
+              </div>
+            ) : (
+              <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 gap-px bg-surface-border rounded-xl overflow-hidden">
+                {categories.map((cat) => (
+                  <Link key={cat.id} href={`/topics/${cat.slug}`} className="bg-surface-muted p-6 hover:bg-white transition-colors group">
+                    <p className="text-xs font-medium text-accent mb-2">{cat.slug}</p>
+                    <h2 className="text-sm font-semibold text-ink group-hover:text-brand-700 transition-colors leading-snug">{cat.name}</h2>
+                    {cat.description && <p className="text-xs text-gray-500 mt-2 leading-relaxed">{cat.description}</p>}
+                  </Link>
+                ))}
+              </div>
+            )}
+          </div>
+        </section>
+
+        {/* ABOUT — Medium */}
+        <section className="bg-surface-raised">
+          <div className="max-w-2xl mx-auto px-6 py-20 md:py-24 text-center">
+            <h2 className="text-2xl md:text-3xl font-semibold text-ink tracking-tight">What is Solma Care?</h2>
+            <div className="w-12 h-0.5 bg-brand-400 mx-auto mt-6 mb-8"></div>
+            <p className="text-gray-500 leading-relaxed text-lg">
+              Solma Care is an evidence-based health resource built specifically for 
+              South Asian women dealing with PCOS, insulin resistance, thyroid conditions, 
+              and other commonly missed diagnoses.
             </p>
-            <Link
-              href="/contact"
-              className="inline-block border border-gold text-gold px-7 py-3 rounded-full text-sm hover:bg-gold hover:text-plum transition-colors"
-            >
-              Submit your question
-            </Link>
+            <p className="text-gray-500 leading-relaxed text-lg mt-4">
+              If you&rsquo;ve been told your labs are &ldquo;normal&rdquo; but your body 
+              tells a different story — you&rsquo;re in the right place.
+            </p>
+            <p className="text-gray-400 text-sm mt-8">By Salma Tabbsum</p>
+          </div>
+        </section>
+
+        {/* ARTICLES — White */}
+        <section className="bg-white">
+          <div className="max-w-6xl mx-auto px-6 py-20 md:py-24">
+            <div className="flex items-end justify-between mb-10">
+              <div>
+                <p className="text-xs font-semibold tracking-widest uppercase text-gray-400 mb-2">Latest</p>
+                <h2 className="text-2xl md:text-3xl font-semibold text-ink tracking-tight">Recent Articles</h2>
+              </div>
+              <Link href="/articles" className="text-sm font-medium text-brand-700 hover:text-brand-800 transition-colors hidden md:block">View all →</Link>
+            </div>
+            {posts.length === 0 ? (
+              <div className="text-center py-20 bg-surface-muted rounded-2xl border border-surface-border">
+                <h3 className="text-xl font-semibold text-ink">No articles yet</h3>
+                <p className="text-gray-500 mt-2">Create your first post from the admin panel!</p>
+              </div>
+            ) : (
+              <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
+                {posts.map((post, i) => (
+                  <PostCard key={post.id} post={post} index={i} />
+                ))}
+              </div>
+            )}
+            <div className="mt-8 text-center md:hidden">
+              <Link href="/articles" className="text-sm font-medium text-brand-700">View all articles →</Link>
+            </div>
           </div>
         </section>
 
         {/* NEWSLETTER */}
-        <section className="max-w-6xl mx-auto px-4 sm:px-6 py-16 grid md:grid-cols-2 gap-10 items-center">
-          <div>
-            <h2 className="font-serif text-3xl text-plum mb-3">
-              Slow, careful, worth the wait.
-            </h2>
-            <p className="text-ink2 mb-4 max-w-md">
-              No content mill. No daily emails. Just well-researched articles,
-              sent when there&rsquo;s something worth reading.
+        <section className="bg-surface-muted border-t border-surface-border">
+          <div className="max-w-2xl mx-auto px-6 py-16 md:py-20 text-center">
+            <h2 className="text-2xl font-semibold text-ink tracking-tight">Stay informed</h2>
+            <p className="text-gray-500 mt-3 text-lg">
+              Physician-reviewed articles on hormonal health for South Asian women. No spam.
             </p>
-            <span className="inline-block bg-sage/15 text-sage text-xs px-3 py-1 rounded-full">
-              Physician-reviewed content only
-            </span>
+            <form className="mt-8 flex flex-col sm:flex-row gap-3 max-w-md mx-auto" action="/api/newsletter" method="POST">
+              <label htmlFor="newsletter-email-home" className="sr-only">Email address</label>
+              <input
+                id="newsletter-email-home"
+                type="email"
+                required
+                placeholder="Your email"
+                className="flex-1 bg-white border border-surface-border rounded-lg px-4 py-3 text-sm text-ink placeholder-gray-400 focus:outline-none focus:border-brand-500"
+              />
+              <button type="submit" className="bg-brand-600 text-white px-6 py-3 rounded-lg font-medium text-sm hover:bg-brand-700 transition-colors">
+                Subscribe
+              </button>
+            </form>
           </div>
-          <form className="flex flex-col sm:flex-row gap-3" action="/api/newsletter" method="POST">
-            <label htmlFor="newsletter-email-home" className="sr-only">Email address</label>
-            <input
-              id="newsletter-email-home"
-              type="email"
-              required
-              placeholder="you@email.com"
-              className="flex-1 rounded-full border border-ink/15 bg-white px-5 py-3 text-sm focus:border-plum outline-none"
-            />
-            <button
-              type="submit"
-              className="bg-plum text-ivory px-6 py-3 rounded-full text-sm hover:bg-terracotta transition-colors"
-            >
-              Subscribe
-            </button>
-          </form>
         </section>
+
       </main>
       <Footer />
     </>

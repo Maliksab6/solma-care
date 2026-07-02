@@ -1,0 +1,117 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Contact — Solma Care Preview</title>
+  <script src="https://cdn.tailwindcss.com"></script>
+  <script>
+    tailwind.config = {
+      theme: {
+        extend: {
+          colors: {
+            brand: { 50:'#f0fdf6',100:'#dcfce9',200:'#bbf7d4',300:'#86efad',400:'#4ade7f',500:'#22c55e',600:'#16a34a',700:'#15803c',800:'#166533',900:'#0f4a25' },
+            surface: { DEFAULT:'#ffffff', muted:'#f8f7f4', raised:'#f2f0eb', border:'#e8e5de' },
+            ink: { DEFAULT:'#1a1a1a', muted:'#6b6560', faint:'#9c958e' },
+            accent: '#c2573a',
+          }
+        }
+      }
+    }
+  </script>
+  <style>body{font-family:system-ui,-apple-system,'Segoe UI',Roboto,sans-serif;color:#1a1a1a}</style>
+</head>
+<body>
+  <div class="bg-ink text-surface text-center text-xs py-2">Preview — Contact Page</div>
+
+  <!-- NAVBAR -->
+  <nav class="sticky top-0 z-50 bg-surface border-b border-surface-border">
+    <div class="max-w-6xl mx-auto flex items-center justify-between px-6 py-4">
+      <a href="preview.html" class="text-lg font-semibold text-ink hover:text-brand-700">Solma Care</a>
+      <div class="hidden md:flex items-center gap-8 text-sm text-ink-muted">
+        <a href="preview.html" class="hover:text-brand-700">Home</a>
+        <a href="preview-articles.html" class="hover:text-brand-700">Articles</a>
+        <a href="#" class="hover:text-brand-700">Topics</a>
+        <a href="preview-about.html" class="hover:text-brand-700">About</a>
+      </div>
+      <a href="#" class="bg-brand-600 text-white text-sm px-5 py-2 rounded-lg font-medium hover:bg-brand-700">Ask a question</a>
+    </div>
+  </nav>
+
+  <!-- CONTACT PAGE -->
+  <section class="bg-surface">
+    <div class="max-w-2xl mx-auto px-6 py-16 md:py-24">
+      
+      <p class="text-xs font-semibold tracking-widest uppercase text-ink-faint mb-4">Contact</p>
+      <h1 class="text-3xl md:text-5xl font-semibold text-ink tracking-tight leading-tight">
+        Ask a Question
+      </h1>
+      <p class="text-ink-muted mt-4 text-lg leading-relaxed">
+        We read every message. If we can't help, we'll point you to someone who can.
+      </p>
+
+      <div class="w-12 h-0.5 bg-brand-400 mt-8 mb-10"></div>
+
+      <!-- Form -->
+      <form class="space-y-6">
+        <div>
+          <label class="block text-sm font-medium text-ink mb-2">Your name</label>
+          <input type="text" placeholder="Full name" class="w-full bg-surface-muted border border-surface-border rounded-lg px-4 py-3 text-sm text-ink placeholder-ink-faint focus:outline-none focus:border-brand-500 transition-colors" />
+        </div>
+        <div>
+          <label class="block text-sm font-medium text-ink mb-2">Email</label>
+          <input type="email" placeholder="you@example.com" class="w-full bg-surface-muted border border-surface-border rounded-lg px-4 py-3 text-sm text-ink placeholder-ink-faint focus:outline-none focus:border-brand-500 transition-colors" />
+        </div>
+        <div>
+          <label class="block text-sm font-medium text-ink mb-2">Subject</label>
+          <input type="text" placeholder="What is this about?" class="w-full bg-surface-muted border border-surface-border rounded-lg px-4 py-3 text-sm text-ink placeholder-ink-faint focus:outline-none focus:border-brand-500 transition-colors" />
+        </div>
+        <div>
+          <label class="block text-sm font-medium text-ink mb-2">Message</label>
+          <textarea rows="5" placeholder="Tell us what's on your mind..." class="w-full bg-surface-muted border border-surface-border rounded-lg px-4 py-3 text-sm text-ink placeholder-ink-faint focus:outline-none focus:border-brand-500 transition-colors resize-none"></textarea>
+        </div>
+        <button type="submit" class="w-full bg-brand-600 text-white px-6 py-3 rounded-lg font-medium hover:bg-brand-700 transition-colors">
+          Send Message
+        </button>
+      </form>
+
+      <!-- Info boxes -->
+      <div class="mt-12 grid sm:grid-cols-2 gap-4">
+        <div class="bg-surface-muted border border-surface-border rounded-xl p-5">
+          <h3 class="font-semibold text-ink text-sm mb-1">Not medical advice</h3>
+          <p class="text-xs text-ink-muted leading-relaxed">
+            We provide educational information only. Always consult your doctor for personal health decisions.
+          </p>
+        </div>
+        <div class="bg-surface-muted border border-surface-border rounded-xl p-5">
+          <h3 class="font-semibold text-ink text-sm mb-1">Response time</h3>
+          <p class="text-xs text-ink-muted leading-relaxed">
+            We typically respond within 48 hours. For emergencies, contact your healthcare provider.
+          </p>
+        </div>
+      </div>
+
+    </div>
+  </section>
+
+  <!-- FOOTER -->
+  <footer class="bg-ink text-surface">
+    <div class="max-w-6xl mx-auto px-6 py-12">
+      <div class="flex flex-col md:flex-row md:items-center md:justify-between gap-6">
+        <div>
+          <p class="text-lg font-semibold">Solma Care</p>
+          <p class="text-sm text-ink-faint mt-1">South Asian women's metabolic &amp; hormonal health</p>
+        </div>
+        <div class="flex gap-6">
+          <a href="#" class="text-sm text-ink-muted hover:text-surface">Instagram</a>
+          <a href="#" class="text-sm text-ink-muted hover:text-surface">TikTok</a>
+          <a href="preview-about.html" class="text-sm text-ink-muted hover:text-surface">About</a>
+        </div>
+      </div>
+      <div class="border-t border-ink-faint/20 mt-8 pt-8">
+        <p class="text-xs text-ink-faint">&copy; 2025 Solma Care. All rights reserved.</p>
+      </div>
+    </div>
+  </footer>
+</body>
+</html>
