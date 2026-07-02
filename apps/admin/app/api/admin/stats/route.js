@@ -12,13 +12,15 @@ export async function GET() {
   const supabase = getServiceClient()
   if (!supabase) return NextResponse.json({ error: 'Missing env vars' }, { status: 500 })
 
-  const [posts, publishedPosts, comments, categories, subscribers, pageViews] = await Promise.all([
+  const [posts, publishedPosts, comments, categories, subscribers, pageViews, unseenMessages, pendingComments] = await Promise.all([
     supabase.from('posts').select('id', { count: 'exact', head: true }),
     supabase.from('posts').select('id', { count: 'exact', head: true }).eq('status', 'published'),
     supabase.from('comments').select('id', { count: 'exact', head: true }),
     supabase.from('categories').select('id', { count: 'exact', head: true }),
     supabase.from('subscribers').select('id', { count: 'exact', head: true }),
     supabase.from('page_views').select('id', { count: 'exact', head: true }),
+    supabase.from('contact_messages').select('id', { count: 'exact', head: true }).eq('is_read', false),
+    supabase.from('comments').select('id', { count: 'exact', head: true }).eq('status', 'pending'),
   ])
 
   return NextResponse.json({
@@ -28,5 +30,7 @@ export async function GET() {
     totalCategories: categories.count || 0,
     totalSubscribers: subscribers.count || 0,
     totalPageViews: pageViews.count || 0,
+    unseenMessages: unseenMessages.count || 0,
+    pendingComments: pendingComments.count || 0,
   })
 }

@@ -52,7 +52,6 @@ export default function NewPost() {
   const [loading, setLoading] = useState(true)
   const [saving, setSaving] = useState(false)
   const [uploading, setUploading] = useState(false)
-  const [imageUrl, setImageUrl] = useState('')
   const router = useRouter()
   const supabase = createClient()
 
@@ -111,15 +110,6 @@ export default function NewPost() {
       setFormData(prev => ({ ...prev, featured_image: publicUrl }))
       toast.success('Image uploaded!')
     } catch (err) { toast.error('Failed to upload image') } finally { setUploading(false) }
-  }
-
-  const handleApplyImageUrl = () => {
-    const url = imageUrl.trim()
-    if (!url) return
-    if (!url.startsWith('http://')) { toast.error('Please enter a valid URL'); return }
-    setFormData(prev => ({ ...prev, featured_image: url }))
-    setImageUrl('')
-    toast.success('Image URL applied!')
   }
 
   const handleSave = async (publishNow = false) => {
@@ -238,23 +228,26 @@ export default function NewPost() {
               {formData.featured_image ? (
                 <div className="space-y-3">
                   <div className="aspect-[16/9] bg-gray-100 rounded-xl overflow-hidden relative">
-                    <img src={formData.featured_image} alt="Featured" className="w-full h-full object-cover" />
-                    <button onClick={() => setFormData(prev => ({ ...prev, featured_image: '' }))} className="absolute top-2 right-2 p-1.5 bg-red-500 text-white rounded-lg hover:bg-red-600"><X size={14} /></button>
+                    <img src={formData.featured_image} alt="Featured" className="w-full h-full object-cover" onError={(e) => { e.target.style.display = 'none'; e.target.nextSibling.style.display = 'flex' }} />
+                    <div className="hidden items-center justify-center w-full h-full bg-red-50 text-red-500 text-xs absolute inset-0">Failed to load image</div>
+                    <button onClick={() => setFormData(prev => ({ ...prev, featured_image: '' }))} className="absolute top-2 right-2 p-1.5 bg-red-500 text-white rounded-lg hover:bg-red-600 z-10"><X size={14} /></button>
                   </div>
-                  <input type="url" value={formData.featured_image} onChange={(e) => setFormData(prev => ({ ...prev, featured_image: e.target.value }))} className="w-full px-3 py-2 rounded-lg border border-gray-200 focus:ring-2 focus:ring-plum outline-none text-xs" placeholder="Image URL" />
+                  <input type="url" value={formData.featured_image} onChange={(e) => setFormData(prev => ({ ...prev, featured_image: e.target.value }))} className="w-full px-3 py-2 rounded-lg border border-gray-200 focus:ring-2 focus:ring-plum outline-none text-xs" placeholder="Paste Cloudinary URL and press Enter..." />
                 </div>
               ) : (
                 <div className="space-y-3">
-                  <label className="flex flex-col items-center justify-center w-full h-24 border-2 border-dashed border-gray-300 rounded-xl cursor-pointer hover:border-plum transition-colors">
-                    <Upload size={20} className="text-gray-400 mb-1" />
+                  <input type="url" value={formData.featured_image} onChange={(e) => setFormData(prev => ({ ...prev, featured_image: e.target.value }))} className="w-full px-3 py-2 rounded-lg border border-gray-200 focus:ring-2 focus:ring-plum outline-none text-sm" placeholder="Paste image URL here (Cloudinary, Imgur, etc.)" />
+                  <p className="text-[10px] text-gray-400">Paste any image link — it will be used as the featured image</p>
+                  <div className="flex items-center gap-3">
+                    <div className="h-px flex-1 bg-gray-200"></div>
+                    <span className="text-[10px] text-gray-400">OR</span>
+                    <div className="h-px flex-1 bg-gray-200"></div>
+                  </div>
+                  <label className="flex flex-col items-center justify-center w-full h-20 border-2 border-dashed border-gray-300 rounded-xl cursor-pointer hover:border-plum transition-colors">
+                    <Upload size={18} className="text-gray-400 mb-1" />
                     <p className="text-xs text-gray-500">{uploading ? 'Uploading...' : 'Upload from computer'}</p>
                     <input type="file" className="hidden" accept="image/*" onChange={handleImageUpload} disabled={uploading} />
                   </label>
-                  <div className="flex gap-2">
-                    <input type="url" value={imageUrl} onChange={(e) => setImageUrl(e.target.value)} onKeyDown={(e) => e.key === 'Enter' && (e.preventDefault(), handleApplyImageUrl())} className="flex-1 px-3 py-2 rounded-lg border border-gray-200 focus:ring-2 focus:ring-plum outline-none text-xs" placeholder="Paste Cloudinary URL or image link..." />
-                    <button type="button" onClick={handleApplyImageUrl} className="px-3 py-2 bg-brand-600 text-white text-xs font-medium rounded-lg hover:bg-brand-700 transition-colors shrink-0">Apply</button>
-                  </div>
-                  <p className="text-[10px] text-gray-400">Paste a link from Cloudinary, Imgur, or any image hosting service</p>
                 </div>
               )}
             </div>
